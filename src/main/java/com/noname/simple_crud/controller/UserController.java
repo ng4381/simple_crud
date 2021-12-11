@@ -1,22 +1,16 @@
 package com.noname.simple_crud.controller;
 
 import com.noname.simple_crud.model.User;
-import com.noname.simple_crud.repository.UserRepository;
 import com.noname.simple_crud.service.UserService;
-import com.noname.simple_crud.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class UserController {
-
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
     private UserService userService;
@@ -28,14 +22,8 @@ public class UserController {
 
     @GetMapping("/users/{id}")
     public ResponseEntity<List<User>> getUsersById(@PathVariable long id) {
-
-        Optional<User> user = userService.getUserById(id);
-
-        if (user.isPresent()) {
-            return new ResponseEntity(user.get(), HttpStatus.OK);
-        } else {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        }
+        User user = userService.getUserById(id);
+        return new ResponseEntity(user, (user == null) ? HttpStatus.NOT_FOUND : HttpStatus.OK);
     }
 
     @PostMapping("/users")
