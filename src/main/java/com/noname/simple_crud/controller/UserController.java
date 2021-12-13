@@ -28,6 +28,7 @@ public class UserController {
 
     @PostMapping("/users")
     public ResponseEntity<User> createUser(@RequestBody User user) {
+
         if (user == null) {
             return new ResponseEntity(null, HttpStatus.BAD_REQUEST);
         }
